@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import parfumerie.parfilya.security.JwtFilter;
 import parfumerie.parfilya.security.AuthEntryPoint;
 
+
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
@@ -60,7 +61,7 @@ public class SecurityConfig {
                                 "/api/products/**"
                         ).permitAll()
 
-                        // 👤 USER
+                        // USER
                         .requestMatchers(
                                 "/api/cart/**",
                                 "/api/orders/**",
