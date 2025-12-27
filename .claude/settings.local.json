@@ -16,7 +16,11 @@
       "Bash(cmd.exe /c \"mvnw.cmd clean compile -q\")",
       "Bash(cmd.exe /c \"mvnw.cmd spring-boot:run -q\")",
       "Bash(timeout:*)",
-      "Bash(cmd.exe /c \"mvnw.cmd spring-boot:run\")"
+      "Bash(cmd.exe /c \"mvnw.cmd spring-boot:run\")",
+      "Bash(git -C \"D:\\\\ParfumerieParfylia\" status --short)",
+      "Bash(git -C \"D:\\\\ParfumerieParfylia\" ls-tree HEAD Frontend/)",
+      "Bash(git -C \"D:\\\\ParfumerieParfylia\" config --list)",
+      "Bash(git -C \"D:\\\\ParfumerieParfylia\" add Frontend/parfylia-f/)"
     ]
   }
 }
