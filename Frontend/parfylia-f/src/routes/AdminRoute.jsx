@@ -5,15 +5,15 @@ export default function AdminRoute({ children }) {
   const { user, isAdmin, loading } = useAuth();
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div style={{ padding: "20px", textAlign: "center" }}>Chargement...</div>;
   }
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   if (!isAdmin) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getAllProducts } from "../services/productService";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
+import api from "../utils/axiosConfig";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ export default function ProductsPage() {
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [sortBy, setSortBy] = useState("name");
+  const [categories, setCategories] = useState([]);
   const { addItem } = useContext(CartContext);
   const { user } = useContext(AuthContext);
 
@@ -30,6 +32,11 @@ export default function ProductsPage() {
         setError("Impossible de charger les produits");
         setLoading(false);
       });
+
+    // Charger les catégories depuis Neo4j
+    api.get("/categories")
+      .then(res => setCategories(res.data))
+      .catch(err => console.error("Erreur chargement catégories:", err));
   }, []);
 
   useEffect(() => {
@@ -106,6 +113,25 @@ export default function ProductsPage() {
                   />
                 </div>
               </div>
+
+              {/* Catégories Neo4j */}
+              {categories.length > 0 && (
+                <div className="filter-section">
+                  <h3 className="filter-title">Catégories</h3>
+                  <div className="filter-options">
+                    {categories.map(cat => (
+                      <Link
+                        key={cat.id}
+                        to={`/products/category/${cat.name}`}
+                        className="filter-option category-link"
+                      >
+                        {cat.name}
+                        <span className="category-count">{cat.productCount}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="filter-section">
                 <h3 className="filter-title">Marques</h3>
@@ -374,6 +400,22 @@ export default function ProductsPage() {
         .filter-option.active {
           background: #000;
           color: #fff;
+        }
+
+        .category-link {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-decoration: none;
+        }
+
+        .category-count {
+          background: #D4AF37;
+          color: #000;
+          font-size: 11px;
+          font-weight: 600;
+          padding: 2px 8px;
+          border-radius: 10px;
         }
 
         .price-inputs {

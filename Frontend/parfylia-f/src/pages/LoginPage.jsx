@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { loginRequest } from "../services/authService";
 import useAuth from "../hooks/useAuth";
 
@@ -10,7 +10,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,15 +26,13 @@ export default function LoginPage() {
       const data = await loginRequest(email, password);
 
       if (data.token) {
-        login(data.token);
-
-        const decoded = JSON.parse(atob(data.token.split(".")[1]));
+        const decoded = login(data.token);
         const role = decoded.role || decoded.roles || decoded.authorities;
 
         if (typeof role === "string" && role.includes("ADMIN")) {
-          navigate("/admin/users");
+          window.location.href = "/admin/users";
         } else {
-          navigate("/");
+          window.location.href = "/";
         }
       } else {
         setError("Token non reçu du serveur");

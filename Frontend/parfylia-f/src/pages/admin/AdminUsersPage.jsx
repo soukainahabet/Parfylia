@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUsers, deleteUser, changeUserRole } from "../../services/adminService";
+import { getUsers, deleteUser, changeUserRole, updateUser } from "../../services/adminService";
 import useAuth from "../../hooks/useAuth";
 
 export default function AdminUsersPage() {
@@ -7,6 +7,10 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { user: currentUser } = useAuth();
+
+  // État pour le modal de modification
+  const [editingUser, setEditingUser] = useState(null);
+  const [editForm, setEditForm] = useState({ name: "", email: "", username: "" });
 
   useEffect(() => {
     loadUsers();
@@ -42,7 +46,7 @@ export default function AdminUsersPage() {
 
   const handleChangeRole = async (id, currentRole) => {
     const newRole = currentRole === "ADMIN" ? "USER" : "ADMIN";
-    
+
     if (!window.confirm(`Changer le rôle de cet utilisateur en ${newRole} ?`)) {
       return;
     }
@@ -54,6 +58,32 @@ export default function AdminUsersPage() {
       console.error("Error changing role:", err);
       alert("Erreur lors du changement de rôle");
     }
+  };
+
+  const handleEdit = (user) => {
+    setEditingUser(user);
+    setEditForm({
+      name: user.name || "",
+      email: user.email || "",
+      username: user.username || ""
+    });
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUser(editingUser.id, editForm);
+      setEditingUser(null);
+      loadUsers();
+    } catch (err) {
+      console.error("Error updating user:", err);
+      alert("Erreur lors de la modification: " + (err.response?.data?.message || err.message));
+    }
+  };
+
+  const closeModal = () => {
+    setEditingUser(null);
+    setEditForm({ name: "", email: "", username: "" });
   };
 
   if (loading) {
@@ -124,13 +154,27 @@ export default function AdminUsersPage() {
                   </td>
                   <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                     <button
+                      onClick={() => handleEdit(user)}
+                      style={{
+                        padding: "6px 12px",
+                        marginRight: "5px",
+                        background: "#17a2b8",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "3px",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Modifier
+                    </button>
+                    <button
                       onClick={() => handleChangeRole(user.id, isAdmin ? "ADMIN" : "USER")}
                       disabled={isCurrentUser}
                       style={{
                         padding: "6px 12px",
                         marginRight: "5px",
                         background: isAdmin ? "#ffc107" : "#28a745",
-                        color: "white",
+                        color: isAdmin ? "#000" : "white",
                         border: "none",
                         borderRadius: "3px",
                         cursor: isCurrentUser ? "not-allowed" : "pointer",
@@ -161,17 +205,119 @@ export default function AdminUsersPage() {
           )}
         </tbody>
       </table>
+
+      {/* Modal de modification */}
+      {editingUser && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: "white",
+            padding: "30px",
+            borderRadius: "10px",
+            width: "100%",
+            maxWidth: "450px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)"
+          }}>
+            <h2 style={{ marginTop: 0, marginBottom: "20px" }}>Modifier l'utilisateur</h2>
+            <form onSubmit={handleEditSubmit}>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                  Nom
+                </label>
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "5px",
+                    boxSizing: "border-box"
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={editForm.email}
+                  onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "5px",
+                    boxSizing: "border-box"
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "20px" }}>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                  Nom d'utilisateur
+                </label>
+                <input
+                  type="text"
+                  value={editForm.username}
+                  onChange={(e) => setEditForm({ ...editForm, username: e.target.value })}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "5px",
+                    boxSizing: "border-box"
+                  }}
+                />
+              </div>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  style={{
+                    padding: "10px 20px",
+                    background: "#6c757d",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    padding: "10px 20px",
+                    background: "#28a745",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Enregistrer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-
-
-
-
-
-
-
 
 
 

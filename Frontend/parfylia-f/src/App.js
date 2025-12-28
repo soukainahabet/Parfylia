@@ -16,6 +16,11 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import AdminProductsPage from "./pages/admin/AdminProductsPage";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
+import AdminGraphPage from "./pages/admin/AdminGraphPage";
+import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
+import AdminBrandsPage from "./pages/admin/AdminBrandsPage";
+import CategoryProductsPage from "./pages/CategoryProductsPage";
+import TestLoginPage from "./pages/TestLoginPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 
@@ -29,10 +34,12 @@ function App() {
             {/* Routes publiques */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/test-login" element={<TestLoginPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
             <Route path="/products/brand/:brand" element={<BrandProductsPage />} />
             <Route path="/products/search" element={<SearchResultsPage />} />
+            <Route path="/products/category/:category" element={<CategoryProductsPage />} />
 
             {/* Routes protégées (utilisateurs connectés) */}
             <Route path="/" element={
@@ -75,6 +82,21 @@ function App() {
             <Route path="/admin/orders" element={
               <AdminRoute>
                 <AdminOrdersPage />
+              </AdminRoute>
+            } />
+            <Route path="/admin/graph" element={
+              <AdminRoute>
+                <AdminGraphPage />
+              </AdminRoute>
+            } />
+            <Route path="/admin/categories" element={
+              <AdminRoute>
+                <AdminCategoriesPage />
+              </AdminRoute>
+            } />
+            <Route path="/admin/brands" element={
+              <AdminRoute>
+                <AdminBrandsPage />
               </AdminRoute>
             } />
           </Routes>

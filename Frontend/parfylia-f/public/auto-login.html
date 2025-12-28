@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Login Admin</title>
+    <style>
+        body { font-family: Arial; padding: 50px; text-align: center; }
+        .status { padding: 20px; margin: 20px; border-radius: 10px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>Connexion Admin Automatique</h1>
+    <div id="status" class="status loading">Connexion en cours...</div>
+
+    <script>
+        async function autoLogin() {
+            const statusEl = document.getElementById('status');
+
+            try {
+                const response = await fetch('http://localhost:8081/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'superadmin@parfylia.com',
+                        password: 'Admin123!'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    statusEl.className = 'status success';
+                    statusEl.innerHTML = 'Connexion réussie! Redirection...';
+
+                    setTimeout(() => {
+                        window.location.href = '/admin/users';
+                    }, 1000);
+                } else {
+                    throw new Error('Pas de token reçu');
+                }
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.innerHTML = 'Erreur: ' + error.message + '<br><br><a href="/login">Retour au login</a>';
+            }
+        }
+
+        autoLogin();
+    </script>
+</body>
+</html>

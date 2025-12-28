@@ -109,8 +109,17 @@ export default function Navbar() {
                       <Link to="/admin/products" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
                         Produits
                       </Link>
+                      <Link to="/admin/categories" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                        Catégories
+                      </Link>
+                      <Link to="/admin/brands" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                        Marques
+                      </Link>
                       <Link to="/admin/orders" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
                         Commandes
+                      </Link>
+                      <Link to="/admin/graph" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                        Graphe Neo4j
                       </Link>
                     </div>
                   )}

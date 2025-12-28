@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useMemo } from "react";
 import jwtDecode from "jwt-decode";
 
 export const AuthContext = createContext(null);
@@ -39,15 +39,15 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // Helper pour vérifier si l'utilisateur est admin
-  const isAdmin = () => {
+  // Helper pour vérifier si l'utilisateur est admin - recalculé quand user change
+  const isAdmin = useMemo(() => {
     if (!user) return false;
     const role = user.role || user.roles || user.authorities;
     if (typeof role === "string") {
       return role.includes("ADMIN") || role.includes("ROLE_ADMIN");
     }
     return false;
-  };
+  }, [user]);
 
   // Helper pour vérifier les permissions
   const hasPermission = (permission) => {
@@ -63,13 +63,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      logout, 
-      isAdmin: isAdmin(),
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
+      isAdmin,
       hasPermission,
-      loading 
+      loading
     }}>
       {children}
     </AuthContext.Provider>
