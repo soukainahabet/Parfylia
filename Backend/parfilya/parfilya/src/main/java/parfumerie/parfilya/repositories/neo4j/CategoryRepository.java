@@ -17,7 +17,16 @@ public interface CategoryRepository extends Neo4jRepository<Category, String> {
     @Query("MATCH (c:Category) RETURN c ORDER BY c.name")
     List<Category> findAllOrderByName();
 
+    @Query("MATCH (c:Category {id: $categoryId})-[:HAS_PRODUCT]->(p:Product) RETURN count(p)")
+    int countProductsByCategory(String categoryId);
+
     @Query("MATCH (c:Category {name: $categoryName}), (p:Product {mysqlProductId: $productId}) " +
            "MERGE (c)-[:HAS_PRODUCT]->(p)")
     void linkProductToCategory(String categoryName, Long productId);
+
+    @Query("MATCH (c:Category)-[r:HAS_PRODUCT]->(p:Product {mysqlProductId: $productId}) DELETE r")
+    void unlinkProductFromCategory(Long productId);
+
+    @Query("MATCH (c:Category {id: $categoryId})-[r:HAS_PRODUCT]->(p:Product {mysqlProductId: $productId}) DELETE r")
+    void unlinkProductFromCategoryById(String categoryId, Long productId);
 }

@@ -21,6 +21,7 @@ public class AdminProductService {
 
         p.setName(product.getName());
         p.setBrand(product.getBrand());
+        p.setCategory(product.getCategory());
         p.setPrice(product.getPrice());
         p.setStock(product.getStock());
         p.setImageUrl(product.getImageUrl());

@@ -20,7 +20,19 @@
       "Bash(git -C \"D:\\\\ParfumerieParfylia\" status --short)",
       "Bash(git -C \"D:\\\\ParfumerieParfylia\" ls-tree HEAD Frontend/)",
       "Bash(git -C \"D:\\\\ParfumerieParfylia\" config --list)",
-      "Bash(git -C \"D:\\\\ParfumerieParfylia\" add Frontend/parfylia-f/)"
+      "Bash(git -C \"D:\\\\ParfumerieParfylia\" add Frontend/parfylia-f/)",
+      "Bash(npm start)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzM4NCJ9.eyJyb2xlIjoiVVNFUiIsInBlcm1pc3Npb25zIjoiUkVBRCIsInN1YiI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzY2OTIzMDA5LCJleHAiOjE3NjcwMDk0MDl9.H-XniOrYx0_FkbX7dt-ohDMw_-gUpjc8w6tGQeyYUb3OfKyNnhPIZwyRXPcH2adO\")",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzM4NCJ9.eyJyb2xlIjoiQURNSU4iLCJwZXJtaXNzaW9ucyI6IlJFQUQsV1JJVEUiLCJzdWIiOiJzdXBlcmFkbWluQHBhcmZ5bGlhLmNvbSIsImlhdCI6MTc2NjkyMzA5MCwiZXhwIjoxNzY3MDA5NDkwfQ.6uT859blFzF1hfunxf7hv2QvsJXEMKLSnklgHX6jKaxR_NJQsnFpt4181KLo9TD1\")",
+      "Bash(npm install:*)",
+      "Bash(cmd.exe /c \"where neo4j 2>nul || echo Neo4j not found in PATH\")",
+      "Bash(cmd.exe /c \"mvnw.cmd compile -q 2>&1\")",
+      "Bash(cmd.exe /c \"cd /d D:\\\\ParfumerieParfylia\\\\Backend\\\\parfilya\\\\parfilya && mvnw.cmd compile -q 2>&1\")",
+      "Bash(cmd.exe /c \"taskkill /F /PID 10392\")",
+      "Bash(cmd.exe /c \"cd /d D:\\\\ParfumerieParfylia\\\\Backend\\\\parfilya\\\\parfilya && start /B mvnw.cmd spring-boot:run\")",
+      "Bash(cmd.exe /c \"cd /d D:\\\\ParfumerieParfylia\\\\Backend\\\\parfilya\\\\parfilya && mvnw.cmd spring-boot:run\")",
+      "Bash(python -c:*)",
+      "Bash(__NEW_LINE__ curl -s -X PUT \"http://localhost:8081/api/admin/products/4\" -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\n  \"\"name\"\": \"\"Gucci Bloom\"\",\n  \"\"brand\"\": \"\"Gucci\"\",\n  \"\"category\"\": \"\"Femme\"\",\n  \"\"price\"\": 115.0,\n  \"\"stock\"\": 14,\n  \"\"description\"\": \"\"Parfum floral blanc riche et captivant\"\",\n  \"\"imageUrl\"\": \"\"https://images.unsplash.com/photo-1590736969955-71cc94901144?w=400\"\"\n}')"
     ]
   }
 }
