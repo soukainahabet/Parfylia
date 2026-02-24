@@ -217,10 +217,4 @@ ParfumerieParfylia/
         └── utils/               # Configuration Axios
 ```
 
-## Licence
 
-Ce projet est développé à des fins éducatives.
-
----
-
-Développé avec :heart: par l'équipe Parfylia
